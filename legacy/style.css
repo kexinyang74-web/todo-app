@@ -1,0 +1,380 @@
+/* ===== 全局设置 ===== */
+/* CSS 变量：把颜色集中定义，以后想换色调只改这里 */
+:root {
+  --primary: #3b82f6;        /* 主蓝色 */
+  --primary-dark: #2563eb;   /* 深蓝色：按钮 hover 时用 */
+  --primary-light: #eff6ff;  /* 浅蓝色：背景、选中底色 */
+  --text-main: #1e293b;      /* 主文字色：深灰蓝 */
+  --text-sub: #64748b;       /* 次要文字色：浅灰 */
+  --line: #e2e8f0;           /* 边框线颜色 */
+  --danger: #ef4444;         /* 删除按钮红色 */
+  --radius: 12px;            /* 统一的圆角大小 */
+  --shadow: 0 10px 30px rgba(99, 102, 241, 0.14); /* 阴影：带一点蓝紫 */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 让 padding 算在宽度里，布局更好算 */
+}
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  color: var(--text-main);
+  /* 柔和的渐变背景：浅蓝 → 浅靛 → 浅紫，135deg 表示从左上到右下 */
+  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 50%, #ede9fe 100%);
+  min-height: 100vh;               /* 至少占满整个屏幕高度 */
+  display: flex;
+  justify-content: center;         /* 水平居中卡片 */
+  padding: 40px 16px;              /* 上下左右留白，手机上也不会被贴边 */
+}
+
+/* ===== 主卡片 ===== */
+.app {
+  width: 100%;
+  max-width: 560px;                /* 桌面端最宽 560px，手机自动缩小 */
+  height: fit-content;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 32px 28px;
+}
+
+/* ===== 标题区 ===== */
+.app-header h1 {
+  font-size: 26px;
+  color: var(--primary-dark);
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: var(--text-sub);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* ===== 输入区 ===== */
+.todo-form {
+  display: flex;         /* 让输入框和按钮排在同一行 */
+  gap: 10px;             /* 两者之间的间距 */
+  margin-top: 24px;
+}
+
+#todo-input {
+  flex: 1;               /* 输入框占满剩余空间 */
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  outline: none;         /* 去掉浏览器默认的黑色聚焦框 */
+  transition: border-color 0.2s, box-shadow 0.2s; /* 平滑过渡动画 */
+}
+
+#todo-input:focus {
+  border-color: var(--primary);                       /* 聚焦时边框变蓝 */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);     /* 外面一圈柔和光晕 */
+}
+
+/* 优先级下拉框：风格与输入框保持一致 */
+.priority-select {
+  padding: 12px 10px;
+  font-size: 14px;
+  color: var(--text-main);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.priority-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.btn-add {
+  padding: 12px 22px;
+  font-size: 15px;
+  color: #fff;
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;                  /* 鼠标移上去变小手 */
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;              /* 手机上防止"添加"两个字被换行 */
+}
+
+.btn-add:hover {
+  background: var(--primary-dark);
+}
+
+.btn-add:active {
+  transform: scale(0.95);           /* 按下时轻微缩小，有点击感 */
+}
+
+/* ===== 统计栏 ===== */
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.stats-divider {
+  color: var(--line);
+}
+
+/* ---- 清空已完成按钮：推到统计栏最右边 ---- */
+.btn-clear {
+  margin-left: auto;      /* flex 布局中自动推到最右侧 */
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-sub);
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;    /* 胶囊形按钮 */
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+/* 悬停时变红，暗示这是带"清除"性质的操作 */
+.btn-clear:hover:not(:disabled) {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: #fef2f2;
+}
+
+/* 没有已完成任务时置灰、不可点击（由 JS 控制 disabled 属性） */
+.btn-clear:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* "全部清空"更醒目：红色调，强调这是危险操作 */
+.btn-clear-all {
+  color: var(--danger);
+  border-color: #fecaca;
+}
+
+.btn-clear-all:hover:not(:disabled) {
+  background: var(--danger);
+  color: #fff;            /* 悬停时红底白字，反色强调 */
+}
+
+/* ===== 任务列表 ===== */
+.todo-list {
+  list-style: none;       /* 去掉 <ul> 默认的黑点 */
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column; /* 任务一项一项竖着排 */
+  gap: 10px;
+}
+
+/* 单条任务 */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  background: var(--primary-light);
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  /* 出现时的小动画：从略微缩小淡入到正常 */
+  animation: slide-in 0.25s ease;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.todo-item:hover {
+  background: #e3efff;
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- 自定义复选框 ---- */
+/* 原生复选框各浏览器长得不一样，所以我们把它藏起来，
+   用 <label> 画一个自己控制样式的方框 */
+.todo-item input[type="checkbox"] {
+  display: none; /* 隐藏原生复选框 */
+}
+
+.custom-checkbox {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;          /* 防止文字太长时把复选框挤变形 */
+  border: 2px solid var(--primary);
+  border-radius: 7px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+}
+
+/* 对勾：用两条边框旋转画出来，默认隐藏 */
+.custom-checkbox::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2.5px 2.5px 0;   /* 只画右边和下边 → 形成 √ */
+  transform: rotate(45deg);
+  opacity: 0;                       /* 默认不显示 */
+  transition: opacity 0.15s;
+}
+
+/* 勾选后：底色变蓝、对勾显示 */
+.todo-item input[type="checkbox"]:checked + .custom-checkbox {
+  background: var(--primary);
+}
+
+.todo-item input[type="checkbox"]:checked + .custom-checkbox::after {
+  opacity: 1;
+}
+
+/* ---- 优先级标签：高红 / 中橙 / 低绿 ---- */
+.badge {
+  flex-shrink: 0;          /* 文字再长也不挤压标签 */
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 20px;     /* 胶囊形 */
+}
+
+.badge-high { background: #fee2e2; color: #dc2626; }
+.badge-mid  { background: #ffedd5; color: #ea580c; }
+.badge-low  { background: #dcfce7; color: #16a34a; }
+
+/* ---- 任务文字 ---- */
+.todo-text {
+  flex: 1;                 /* 占满中间空间，把删除按钮推到最右 */
+  font-size: 15px;
+  word-break: break-all;   /* 超长文字允许换行，不会撑破卡片 */
+  cursor: pointer;         /* 点文字也可以切换完成状态 */
+  user-select: none;       /* 防止误选中文字 */
+  transition: color 0.2s;
+}
+
+/* 已完成：文字变灰 + 删除线 */
+.todo-item.done .todo-text {
+  color: var(--text-sub);
+  text-decoration: line-through;
+  text-decoration-color: rgba(100, 116, 139, 0.6);
+}
+
+/* 已完成时整个条目也淡一点 */
+.todo-item.done {
+  opacity: 0.65;
+}
+
+/* ---- 编辑按钮 ---- */
+.btn-edit {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-sub);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-edit:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ---- 删除按钮 ---- */
+.btn-delete {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-sub);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;    /* 浅红色底 */
+  color: var(--danger);   /* 红色 × */
+}
+
+/* ---- 编辑任务时的行内输入框 ---- */
+.edit-input {
+  flex: 1;
+  min-width: 0;           /* flex 子项允许收缩，防止撑破容器 */
+  padding: 6px 12px;
+  font-size: 15px;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+}
+
+/* ===== 空状态提示 ===== */
+.empty-tip {
+  margin-top: 20px;
+  padding: 28px 0;
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 14px;
+  background: var(--primary-light);
+  border-radius: var(--radius);
+}
+
+/* 有任务时隐藏空提示（JS 通过加类控制） */
+.empty-tip.hidden {
+  display: none;
+}
+
+/* ===== 手机端适配（屏幕宽度 ≤ 480px 时生效） ===== */
+@media (max-width: 480px) {
+  body {
+    padding: 16px 10px;   /* 缩小外边距，把空间留给内容 */
+  }
+
+  .stats {
+    flex-wrap: wrap;      /* 手机上空间不够时统计和按钮自动换行 */
+  }
+
+  .app {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .app-header h1 {
+    font-size: 22px;
+  }
+
+  .todo-form {
+    gap: 8px;
+    flex-wrap: wrap;      /* 手机上一行放不下就换行 */
+  }
+
+  #todo-input {
+    flex: 1 1 100%;       /* 输入框独占第一行 */
+  }
+
+  .priority-select {
+    flex: 1;              /* 下拉框占满第二行剩余宽度 */
+  }
+
+  .btn-add {
+    padding: 12px 16px;
+  }
+}

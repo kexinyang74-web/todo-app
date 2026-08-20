@@ -1,0 +1,8 @@
+/* 引入 Tailwind CSS（v4 的写法：一行 import，不再需要配置文件） */
+@import "tailwindcss";
+
+/* 全局基础样式：浅色清新蓝主题（以 PRD.md 的设计要求为准） */
+body {
+  background-color: #eff6ff; /* 很浅的蓝色背景 */
+  color: #1e293b;            /* 深灰蓝正文颜色 */
+}

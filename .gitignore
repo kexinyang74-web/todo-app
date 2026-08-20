@@ -1,0 +1,5 @@
+# 依赖文件夹（体积大，任何人 npm install 都能恢复）
+node_modules
+
+# 构建产物
+dist
