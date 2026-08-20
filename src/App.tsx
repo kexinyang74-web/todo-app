@@ -1,11 +1,14 @@
+import { useState } from "react";
 import StatsPanel from "./components/StatsPanel";
 import TodoForm from "./components/TodoForm";
 import FilterBar from "./components/FilterBar";
 import TodoList from "./components/TodoList";
+import ObsidianSettingsPanel from "./components/ObsidianSettingsPanel";
 import { useTodoStore } from "./store/todoStore";
 
 // 应用根组件：只负责把各个组件按页面顺序组装起来
 function App() {
+  const [showObsidian, setShowObsidian] = useState(false);
   const total = useTodoStore((s) => s.todos.length);
   const clearAll = useTodoStore((s) => s.clearAll);
 
@@ -30,19 +33,36 @@ function App() {
             React + TypeScript + Zustand + Tailwind CSS
           </p>
         </div>
-        {/* 全部清空：红色系危险操作按钮，没任务时置灰 */}
-        <button
-          type="button"
-          onClick={handleClearAll}
-          disabled={total === 0}
-          className="shrink-0 cursor-pointer rounded-full border border-red-200 px-4 py-2 text-sm text-red-500 transition hover:bg-red-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          全部清空
-        </button>
+        <div className="flex shrink-0 gap-2">
+          {/* Obsidian 同步设置开关 */}
+          <button
+            type="button"
+            aria-label="Obsidian 同步设置"
+            aria-pressed={showObsidian}
+            onClick={() => setShowObsidian((v) => !v)}
+            className={`size-10 cursor-pointer rounded-full border text-base transition ${
+              showObsidian
+                ? "border-sky-300 bg-sky-50"
+                : "border-slate-200 hover:bg-sky-50"
+            }`}
+          >
+            ⚙️
+          </button>
+          {/* 全部清空：红色系危险操作按钮，没任务时置灰 */}
+          <button
+            type="button"
+            onClick={handleClearAll}
+            disabled={total === 0}
+            className="min-h-10 shrink-0 cursor-pointer rounded-full border border-red-200 px-4 text-sm text-red-500 transition hover:bg-red-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            全部清空
+          </button>
+        </div>
       </header>
 
       {/* 功能区：统计 → 表单 → 筛选 → 列表 */}
       <div className="flex flex-col gap-4">
+        {showObsidian && <ObsidianSettingsPanel />}
         <StatsPanel />
         <TodoForm />
         <FilterBar />

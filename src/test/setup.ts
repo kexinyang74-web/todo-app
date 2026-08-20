@@ -13,6 +13,15 @@ beforeEach(() => {
     categoryFilter: "all",
     priorityFilter: "all",
     statusFilter: "all",
+    obsidian: {
+      enabled: false,
+      apiKey: "",
+      port: 27123,
+      filePath: "todo.md",
+      autoSync: false,
+    },
+    syncState: "idle",
+    lastError: null,
   });
 });
 

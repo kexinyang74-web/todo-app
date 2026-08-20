@@ -153,11 +153,12 @@ describe("筛选条件 setter（规格 3）", () => {
 });
 
 describe("持久化（规格 2）", () => {
-  it("addTodo 后写入 localStorage，且只持久化 todos", () => {
+  it("addTodo 后写入 localStorage（持久化 todos 与 obsidian 设置）", () => {
     useTodoStore.getState().addTodo(draft);
     const raw = JSON.parse(localStorage.getItem("todo-app-storage")!);
     expect(raw.state.todos).toHaveLength(1);
     expect(raw.state).not.toHaveProperty("keyword");
+    expect(raw.state.obsidian).toBeDefined();
   });
 
   it("旧版（version 0）数据重载时规范化迁移", async () => {

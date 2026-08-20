@@ -6,7 +6,7 @@ import TodoItem from "./TodoItem";
 // 空状态提示：白卡片 + 居中灰字
 function EmptyTip({ text }: { text: string }) {
   return (
-    <p className="rounded-2xl bg-white p-8 text-center text-sm text-slate-400 shadow-sm">
+    <p className="rounded-2xl bg-white px-4 py-10 text-center text-sm text-slate-400 shadow-sm">
       {text}
     </p>
   );
@@ -49,7 +49,7 @@ function TodoList() {
         <button
           type="button"
           onClick={clearDone}
-          className="ml-auto cursor-pointer rounded-full border border-red-200 px-4 py-1.5 text-xs text-red-500 transition hover:bg-red-500 hover:text-white"
+          className="ml-auto min-h-9 cursor-pointer rounded-full border border-red-200 px-4 text-xs text-red-500 transition hover:bg-red-500 hover:text-white"
         >
           清空已完成（{doneCount}）
         </button>

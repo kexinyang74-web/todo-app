@@ -68,4 +68,11 @@ describe("App 主流程（规格 1/6）", () => {
     expect(useTodoStore.getState().todos[0].title).toBe("买牛奶");
     expect(screen.getByText("买牛奶")).toBeInTheDocument();
   });
+
+  it("页头提供 Obsidian 设置按钮，点击打开设置面板", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "Obsidian 同步设置" }));
+    expect(screen.getByRole("heading", { name: "Obsidian 同步" })).toBeInTheDocument();
+  });
 });

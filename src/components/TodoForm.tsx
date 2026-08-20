@@ -4,7 +4,7 @@ import { useTodoStore } from "../store/todoStore";
 
 // 表单里次要字段的统一样式（输入框 / 下拉框共用）
 const fieldCls =
-  "rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100";
+  "h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100";
 
 // 添加 / 编辑任务表单
 // editingId 不为空时自动变成"编辑模式"，表单会填入对应任务的数据
@@ -107,11 +107,11 @@ function TodoForm() {
           }}
           placeholder="今天要做什么？"
           maxLength={100}
-          className="min-w-0 flex-1 rounded-xl border border-slate-200 px-4 py-2.5 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+          className="h-11 min-w-0 flex-1 rounded-xl border border-slate-200 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
         />
         <button
           type="submit"
-          className="shrink-0 rounded-xl bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-2.5 font-medium text-white transition hover:opacity-90 active:scale-95"
+          className="min-h-11 shrink-0 cursor-pointer rounded-xl bg-gradient-to-r from-sky-500 to-violet-500 px-5 font-medium text-white transition hover:opacity-90 active:scale-95"
         >
           {isEditing ? "💾 保存修改" : "➕ 添加任务"}
         </button>

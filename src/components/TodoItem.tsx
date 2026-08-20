@@ -53,7 +53,7 @@ function TodoItem({ todo }: { todo: Todo }) {
           checked={todo.done}
           aria-label={`标记「${todo.title}」为${todo.done ? "未完成" : "已完成"}`}
           onChange={() => toggleTodo(todo.id)}
-          className="mt-0.5 size-5 shrink-0 cursor-pointer accent-sky-500"
+          className="mt-1 size-5 shrink-0 cursor-pointer accent-sky-500"
         />
 
         {/* 中间主体：标题 + 标签行 + 描述 */}
@@ -94,7 +94,7 @@ function TodoItem({ todo }: { todo: Todo }) {
             type="button"
             onClick={() => setEditing(isEditingThis ? null : todo.id)}
             aria-label="编辑"
-            className="size-8 cursor-pointer rounded-lg text-base text-slate-400 transition hover:bg-sky-50 hover:text-sky-600"
+            className="size-10 cursor-pointer rounded-lg text-base text-slate-400 transition hover:bg-sky-50 hover:text-sky-600"
           >
             ✏️
           </button>
@@ -102,7 +102,7 @@ function TodoItem({ todo }: { todo: Todo }) {
             type="button"
             onClick={handleDelete}
             aria-label="删除"
-            className="size-8 cursor-pointer rounded-lg text-base text-slate-400 transition hover:bg-red-50 hover:text-red-500"
+            className="size-10 cursor-pointer rounded-lg text-base text-slate-400 transition hover:bg-red-50 hover:text-red-500"
           >
             🗑️
           </button>

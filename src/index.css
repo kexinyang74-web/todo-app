@@ -2,7 +2,30 @@
 @import "tailwindcss";
 
 /* 全局基础样式：浅色清新蓝主题（以 PRD.md 的设计要求为准） */
+html {
+  scroll-behavior: smooth; /* 平滑滚动（AGENT.md 设计要求） */
+}
+
 body {
   background-color: #eff6ff; /* 很浅的蓝色背景 */
   color: #1e293b;            /* 深灰蓝正文颜色 */
+}
+
+::selection {
+  background-color: #bae6fd;
+  color: #0c4a6e;
+}
+
+/* 尊重系统"减弱动态效果"设置：关闭过渡与动画 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
